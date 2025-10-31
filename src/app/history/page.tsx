@@ -1,0 +1,36 @@
+
+// src/app/history/page.tsx
+export default function HistoryPage() {
+  return (
+    <div style={{ padding: '20px', fontFamily: 'monospace' }}>
+      <h1>图床历史记录</h1>
+      <p><strong>使用方法：</strong></p>
+      <ol>
+        <li>打开你的 Telegram 图床群</li>
+        <li>转发任意图片给 @get_id_bot</li>
+        <li>复制 File ID</li>
+        <li>生成链接：https://tg.i-c-a.su/img/<span style={{color:'red'}}>你的file_id</span></li>
+      </ol>
+      <hr />
+      <p><strong>快速生成工具：</strong></p>
+      <input id="fileId" placeholder="粘贴 file_id 这里" style={{width:'100%', padding:'10px'}} />
+      <button onClick={()=>{
+        const id = (document.getElementById('fileId') as HTMLInputElement).value;
+        if(id) navigator.clipboard.writeText(`https://tg.i-c-a.su/img/${id}`);
+        alert('已复制 Markdown 链接！');
+      }} style={{marginTop:'10px', padding:'10px'}}>
+        生成 Markdown 链接
+      </button>
+      <p id="result" style={{marginTop:'10px', background:'#f0f0f0', padding:'10px'}}></p>
+      <script>
+        {`
+          document.getElementById('fileId').addEventListener('input', (e) => {
+            const id = e.target.value;
+            const md = id ? \`![图](\${id})\` : '';
+            document.getElementById('result').innerText = md;
+          });
+        `}
+      </script>
+    </div>
+  );
+}
